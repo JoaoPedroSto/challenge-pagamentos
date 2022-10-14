@@ -2,11 +2,9 @@ package br.com.challenge.pagamentos.core.entity.model;
 
 import br.com.challenge.pagamentos.core.entity.enuns.StatusPagamento;
 import lombok.*;
-//import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Data
@@ -14,10 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-//@Document(collection = "pagamentos")
+@Document
 public class PagamentosEntity {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Integer id;
     private StatusPagamento status;
     private LocalDate inclusionDate;

@@ -1,23 +1,15 @@
 package br.com.challenge.pagamentos.core.strategy.impl;
 
+import br.com.challenge.pagamentos.app.entrypoint.dto.RecorrenciaDTO;
 import br.com.challenge.pagamentos.core.entity.enuns.Frequencia;
-import br.com.challenge.pagamentos.core.entity.model.RecorrenciaEntity;
-import br.com.challenge.pagamentos.core.strategy.RecorrenciaStrategy;
+import br.com.challenge.pagamentos.core.strategy.RecurrenceChain;
 
 import java.time.LocalDate;
 
-public class TrimestralChain implements RecorrenciaStrategy {
-
-    private RecorrenciaStrategy strategy;
+public class TrimestralChain extends RecurrenceChain {
 
     @Override
-    public void nextChain(RecorrenciaStrategy nextChain) {
-        this.strategy = nextChain;
-    }
-
-
-    @Override
-    public void execute(RecorrenciaEntity recurrence, Float amount) {
+    public void execute(RecorrenciaDTO recurrence, Float amount) {
         if (recurrence != null
                 && recurrence.getFrequency() == Frequencia.TRIMETRAL){
             if(amount < 130 || recurrence.getFinalDate().isAfter(LocalDate.now().plusYears(3))){
