@@ -8,4 +8,6 @@ public interface PagamentosEntityFactory {
 
     public PagamentosEntity factoryEntity(PagamentosRequestDto dto);
 
+    public PagamentosEntity factoryEntityUpdate(PagamentosRequestDto dto, PagamentosEntity entityBase);
+
 }

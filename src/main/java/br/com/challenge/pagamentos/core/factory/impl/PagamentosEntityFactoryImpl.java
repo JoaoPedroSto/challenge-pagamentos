@@ -26,4 +26,17 @@ public class PagamentosEntityFactoryImpl implements PagamentosEntityFactory {
         entity.setStatus(status);
         return entity;
     }
+
+    @Override
+    public PagamentosEntity factoryEntityUpdate(PagamentosRequestDto dto, PagamentosEntity entityBase) {
+        var entity = factoryEntity(dto);
+        entityBase.setStatus(entity.getStatus());
+        entityBase.setInclusionDate(entity.getInclusionDate());
+        entityBase.setPaymentDate(entity.getPaymentDate());
+        entityBase.setAmount(entity.getAmount());
+        entityBase.setDescription(entity.getDescription());
+        entityBase.setRecurrence(entity.getRecurrence());
+        entityBase.setReceiver(entity.getReceiver());
+        return entityBase;
+    }
 }

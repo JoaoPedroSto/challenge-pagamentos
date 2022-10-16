@@ -6,15 +6,22 @@ import br.com.challenge.pagamentos.core.strategy.RecurrenceChain;
 
 import java.time.LocalDate;
 
-public class SemestralChain extends RecurrenceChain {
+public class SemestralChain implements RecurrenceChain {
+
+    private RecurrenceChain chain;
 
     @Override
-    public void execute(RecorrenciaDTO recurrence, Float amount) {
-        if (recurrence != null
-                && recurrence.getFrequency() == Frequencia.SEMESTRAL){
-            if(amount < 150 || recurrence.getFinalDate().isAfter(LocalDate.now().plusYears(4))){
+    public void execute(RecorrenciaDTO payload, Float amount) {
+        if (payload != null
+                && payload.getFrequency() == Frequencia.SEMESTRAL){
+            if(amount < 150 || payload.getFinalDate().isAfter(LocalDate.now().plusYears(4))){
                 throw new RuntimeException();
             }
         }
+    }
+
+    @Override
+    public void next(RecurrenceChain next) {
+        this.chain = next;
     }
 }

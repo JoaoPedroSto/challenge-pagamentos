@@ -12,10 +12,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Document
+@Document(collection = "pagamentos")
 public class PagamentosEntity {
     @Id
-    private Integer id;
+    private String id;
     private StatusPagamento status;
     private LocalDate inclusionDate;
     private LocalDate paymentDate;
