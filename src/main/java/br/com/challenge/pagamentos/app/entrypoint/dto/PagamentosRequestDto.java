@@ -15,15 +15,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PagamentosRequestDto {
-    @PastOrPresent(message = "Data de inclusão deve ser no Passado ou Presente!")
-    @NotNull(message = "Campo inclusionDate é obrigatória!")
+    @PastOrPresent(message = "Este campo deve estar no Passado ou Presente!")
+    @NotNull(message = "Data de Inclusão é obrigatória!")
     private LocalDate inclusionDate;
-    @NotNull(message = "Campo paymentDate é obrigatório!")
+    @NotNull(message = "Data de pagamento é obrigatória!")
     private LocalDate paymentDate;
-    @NotNull(message = "Campo amount é obrigatório!")
+    @NotNull(message = "Valor a ser pago é obrigatório!")
     private Float amount;
     private String description;
     private RecorrenciaDTO recurrenceDTO;
-    @Valid @NotNull(message = "Campo receiver é obrigatório!")
+    @Valid @NotNull(message = "As informações do destinatário são obrigatórios!")
     private DestinatarioPixDTO receiverDTO;
 }

@@ -17,6 +17,6 @@ import java.io.Serializable;
 public class DestinatarioPixDTO implements Serializable {
 
     private static final long serialVersionUID = 1669742738643988372L;
-    @NotBlank(message = "Campo key é obrigatório!")
+    @NotBlank(message = "A chave é obrigatória!")
     private String key;
 }

@@ -1,5 +1,6 @@
 package br.com.challenge.pagamentos.core.strategy.impl;
 
+import br.com.challenge.pagamentos.app.configuration.exception.BusinessException;
 import br.com.challenge.pagamentos.app.entrypoint.dto.RecorrenciaDTO;
 import br.com.challenge.pagamentos.core.entity.enuns.Frequencia;
 import br.com.challenge.pagamentos.core.strategy.RecurrenceChain;
@@ -15,8 +16,7 @@ public class SemestralChain implements RecurrenceChain {
         if (payload != null
                 && payload.getFrequency() == Frequencia.SEMESTRAL){
             if(amount < 150 || payload.getFinalDate().isAfter(LocalDate.now().plusYears(4))){
-                throw new RuntimeException();
-            }
+                throw new BusinessException("O valor deve ser superior a 150 reais e a data final inferior a 4 ano.");            }
         }
     }
 

@@ -29,8 +29,8 @@ public class PagamentosController {
 
     @PostMapping(value = "/pagamentos")
     public ResponseEntity incluirPagamento(@RequestBody @Valid PagamentosRequestDto pagamentos){
-        salvarService.persistPagamento(pagamentos);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var response = salvarService.persistPagamento(pagamentos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping(value = "/pagamentos/{id}")
@@ -44,7 +44,7 @@ public class PagamentosController {
     }
 
     @PutMapping(value = "/pagamentos/{id}")
-    public ResponseEntity atualizarPagamento(@PathVariable String id ,@RequestBody @Valid PagamentosRequestDto pagamento){
+    public ResponseEntity atualizarPagamento(@PathVariable @NotNull String id ,@RequestBody @Valid PagamentosRequestDto pagamento){
         atualizarService.updatePagamento(pagamento, id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

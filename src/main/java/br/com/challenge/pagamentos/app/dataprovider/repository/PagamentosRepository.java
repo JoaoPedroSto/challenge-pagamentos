@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,4 +13,6 @@ import java.util.Optional;
 public interface PagamentosRepository extends MongoRepository<PagamentosEntity, String> {
 
     List<PagamentosEntity> findByStatus(String status);
+
+    boolean existsByPaymentDateAndAmountAndReceiverKey(LocalDate paymente, Float amount, String key);
 }
