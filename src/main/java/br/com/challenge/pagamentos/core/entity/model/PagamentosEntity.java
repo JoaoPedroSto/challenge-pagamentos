@@ -2,9 +2,12 @@ package br.com.challenge.pagamentos.core.entity.model;
 
 import br.com.challenge.pagamentos.core.entity.enuns.StatusPagamento;
 import lombok.*;
+import org.apache.kafka.common.header.Headers;
+import org.apache.kafka.common.serialization.Serializer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
@@ -13,7 +16,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Document(collection = "pagamentos")
-public class PagamentosEntity {
+public class PagamentosEntity implements Serializable{
+    private static final long serialVersionUID = -6035432439817008047L;
     @Id
     private String id;
     private StatusPagamento status;
@@ -23,4 +27,5 @@ public class PagamentosEntity {
     private String description;
     private RecorrenciaEntity recurrence;
     private DestinatarioPixEntity receiver;
+
 }

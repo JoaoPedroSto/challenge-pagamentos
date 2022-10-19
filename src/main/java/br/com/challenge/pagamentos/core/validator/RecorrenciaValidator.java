@@ -1,4 +1,4 @@
-package br.com.challenge.pagamentos.core.configuration;
+package br.com.challenge.pagamentos.core.validator;
 
 import br.com.challenge.pagamentos.app.entrypoint.dto.RecorrenciaDTO;
 import br.com.challenge.pagamentos.core.strategy.RecurrenceChain;
@@ -7,8 +7,6 @@ import br.com.challenge.pagamentos.core.strategy.impl.SemanalChain;
 import br.com.challenge.pagamentos.core.strategy.impl.SemestralChain;
 import br.com.challenge.pagamentos.core.strategy.impl.TrimestralChain;
 import org.springframework.stereotype.Component;
-
-import javax.validation.Validation;
 
 @Component
 public class RecorrenciaValidator {
