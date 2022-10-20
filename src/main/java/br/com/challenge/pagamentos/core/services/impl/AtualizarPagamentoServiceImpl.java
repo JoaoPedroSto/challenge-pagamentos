@@ -1,5 +1,6 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
+import br.com.challenge.pagamentos.app.configuration.exception.BusinessException;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PagamentosRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PagamentosRequestDto;
 import br.com.challenge.pagamentos.core.factory.PagamentosEntityFactory;
@@ -14,12 +15,11 @@ import org.springframework.stereotype.Service;
 public class AtualizarPagamentoServiceImpl implements AtualizarPagamentoService {
 
     @Autowired
-    PagamentosEntityFactory factory;
+    private PagamentosEntityFactory factory;
     @Autowired
-    RecorrenciaValidator validator;
+    private RecorrenciaValidator validator;
     @Autowired
-    PagamentosRepository repository;
-
+    private PagamentosRepository repository;
     @Override
     public void updatePagamento(PagamentosRequestDto pagamentosDto, String id) {
         validator.validate(pagamentosDto.getRecurrenceDTO(), pagamentosDto.getAmount());
@@ -27,6 +27,7 @@ public class AtualizarPagamentoServiceImpl implements AtualizarPagamentoService 
         if(pagamentoBase.isPresent()){
             var entityUpdate = factory.factoryEntityUpdate(pagamentosDto, pagamentoBase.get());
             repository.save(entityUpdate);
-        }
+        }else
+            throw new BusinessException("Pagamento não existe na base!");
     }
 }

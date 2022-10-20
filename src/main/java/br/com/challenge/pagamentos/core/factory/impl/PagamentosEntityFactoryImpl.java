@@ -3,6 +3,7 @@ package br.com.challenge.pagamentos.core.factory.impl;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PagamentosRequestDto;
 import br.com.challenge.pagamentos.app.entrypoint.mapper.PagamentosMapper;
 import br.com.challenge.pagamentos.core.entity.enuns.StatusPagamento;
+import br.com.challenge.pagamentos.core.entity.enuns.TipoChave;
 import br.com.challenge.pagamentos.core.entity.model.PagamentosEntity;
 import br.com.challenge.pagamentos.core.factory.PagamentosEntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class PagamentosEntityFactoryImpl implements PagamentosEntityFactory {
                 ? StatusPagamento.EFETUADO
                 : StatusPagamento.AGENDADO;
         entity.setStatus(status);
+        entity.getReceiver().setKeyType(TipoChave.getTipoChave(dto.getReceiverDTO().getKey()));
         return entity;
     }
 

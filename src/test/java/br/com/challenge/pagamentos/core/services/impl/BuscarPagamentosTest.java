@@ -19,7 +19,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class BuscarPagamentoTest {
+public class BuscarPagamentosTest {
 
     @InjectMocks
     private BuscarPagamentoServiceImpl service;
