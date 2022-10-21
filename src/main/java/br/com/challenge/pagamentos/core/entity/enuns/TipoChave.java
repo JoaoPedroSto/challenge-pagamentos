@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 public enum TipoChave {
     CPF("CPF", 0, Pattern.compile("^[0-9]{11}$")),
     EMAIL("EMAIL", 1, Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$")),
-    TELEFONE("TELEFONE",2,Pattern.compile("^[0-9]{11}$")),
-    ALEATORIA("ALEATORIA", 3, Pattern.compile("^[a-zA-Z0-9\\-]*$"));
+    TELEFONE("TELEFONE",2,Pattern.compile("^\\([1-9]{2}\\)(?:[2-8]|9[1-9])[0-9]{3}[0-9]{4}")),
+    ALEATORIA("ALEATORIA", 3, Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"));
 
     private final String description;
     private final Integer id;

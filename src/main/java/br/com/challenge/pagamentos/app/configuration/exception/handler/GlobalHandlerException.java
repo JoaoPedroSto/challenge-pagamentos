@@ -22,7 +22,7 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handlerBadRequest(Exception ex, WebRequest request){
-        DetalhesErros erros = new DetalhesErros("Erro durante o Processamento na classe: " + ex.getClass() ,ex.getMessage(), request.getDescription(false));
+        DetalhesErros erros = new DetalhesErros("Erro durante o Processamento!" ,ex.getMessage(), request.getDescription(false));
         return new ResponseEntity(erros, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

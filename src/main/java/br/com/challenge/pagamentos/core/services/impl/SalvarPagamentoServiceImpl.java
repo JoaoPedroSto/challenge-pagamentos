@@ -1,11 +1,14 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PagamentosRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PagamentosRequestDto;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PagamentosResponseDTO;
 import br.com.challenge.pagamentos.core.factory.PagamentosEntityFactory;
 import br.com.challenge.pagamentos.core.services.SalvarPagamentoService;
 import br.com.challenge.pagamentos.core.validator.RecorrenciaValidator;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class SalvarPagamentoServiceImpl implements SalvarPagamentoService {
     @Autowired
     private RecorrenciaValidator validator;
     @Autowired
+    private KafkaProducer producer;
+    @Autowired
     private PagamentosRepository repository;
 
     @Override
@@ -31,6 +36,7 @@ public class SalvarPagamentoServiceImpl implements SalvarPagamentoService {
                 pagamentoDto.getReceiverDTO().getKey()
         );
         var response = repository.save(pagamentoEntity);
+        producer.send(response, "SAVE");
         log.info(pagamentoEntity.toString());
         return PagamentosResponseDTO
                 .builder()

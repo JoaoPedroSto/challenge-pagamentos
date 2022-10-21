@@ -4,6 +4,8 @@ import br.com.challenge.pagamentos.app.dataprovider.repository.PagamentosReposit
 import br.com.challenge.pagamentos.app.entrypoint.filter.FiltroBuscaPagamento;
 import br.com.challenge.pagamentos.core.entity.model.PagamentosEntity;
 import br.com.challenge.pagamentos.core.services.BuscarPagamentoService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

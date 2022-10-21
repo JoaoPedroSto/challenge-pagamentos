@@ -6,6 +6,7 @@ import br.com.challenge.pagamentos.core.entity.enuns.StatusPagamento;
 import br.com.challenge.pagamentos.core.entity.enuns.TipoChave;
 import br.com.challenge.pagamentos.core.entity.model.PagamentosEntity;
 import br.com.challenge.pagamentos.core.factory.PagamentosEntityFactory;
+import br.com.challenge.pagamentos.core.validator.ChaveValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,8 @@ public class PagamentosEntityFactoryImpl implements PagamentosEntityFactory {
 
     @Autowired
     private PagamentosMapper mapper;
+    @Autowired
+    private ChaveValidator validator;
 
     @Override
     public PagamentosEntity factoryEntity(PagamentosRequestDto dto) {
@@ -26,6 +29,7 @@ public class PagamentosEntityFactoryImpl implements PagamentosEntityFactory {
                 : StatusPagamento.AGENDADO;
         entity.setStatus(status);
         entity.getReceiver().setKeyType(TipoChave.getTipoChave(dto.getReceiverDTO().getKey()));
+        validator.validarchave(entity.getReceiver());
         return entity;
     }
 

@@ -1,6 +1,7 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
 import br.com.challenge.pagamentos.app.configuration.exception.BusinessException;
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PagamentosRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.DestinatarioPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PagamentosRequestDto;
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +36,8 @@ public class AtualizarPagamentosTest {
     private RecorrenciaValidator validator;
     @Mock
     private PagamentosRepository repository;
+    @Mock
+    private KafkaProducer producerMock;
 
     private static PagamentosRequestDto dto;
     private static PagamentosEntity entity;
@@ -60,6 +65,7 @@ public class AtualizarPagamentosTest {
     @Test
     public void atualizar_pagamento_test(){
         doNothing().when(validator).validate(dto.getRecurrenceDTO(), dto.getAmount());
+        doNothing().when(producerMock).send(any(PagamentosEntity.class), anyString());
         when(repository.findById("IDPagamento")).thenReturn(Optional.of(entity));
         ModelMapper mapper = new ModelMapper();
         var entityUpdate = mapper.map(dto, PagamentosEntity.class);
@@ -72,6 +78,7 @@ public class AtualizarPagamentosTest {
     @Test(expected = BusinessException.class)
     public void atualizar_pagamento_exception_test(){
         doNothing().when(validator).validate(dto.getRecurrenceDTO(), dto.getAmount());
+        doNothing().when(producerMock).send(any(PagamentosEntity.class), anyString());
         when(repository.findById("IDPagamento")).thenReturn(Optional.empty());
         service.updatePagamento(dto ,"IDPagamento");
     }

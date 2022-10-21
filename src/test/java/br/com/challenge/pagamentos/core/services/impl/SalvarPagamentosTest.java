@@ -1,5 +1,6 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PagamentosRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.DestinatarioPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PagamentosRequestDto;
@@ -31,6 +32,8 @@ class SalvarPagamentosTest {
     private PagamentosEntityFactoryImpl factoryMock;
     @Mock
     private PagamentosRepository repositoryMock;
+    @Mock
+    private KafkaProducer producerMock;
 
     private static PagamentosRequestDto request;
     private static PagamentosEntity entity;
@@ -58,6 +61,7 @@ class SalvarPagamentosTest {
     @Test
     public void salvar_cliente_sucesso(){
         doNothing().when(validatorMock).validate(request.getRecurrenceDTO(),request.getAmount());
+        doNothing().when(producerMock).send(any(PagamentosEntity.class), anyString());
         when(repositoryMock.existsByPaymentDateAndAmountAndReceiverKey(
                 request.getPaymentDate(), request.getAmount(),request.getReceiverDTO().getKey()
         )).thenReturn(false);
@@ -70,6 +74,7 @@ class SalvarPagamentosTest {
     @Test
     public void salvar_cliente_sucesso_notifica_duplicidate(){
         doNothing().when(validatorMock).validate(request.getRecurrenceDTO(),request.getAmount());
+        doNothing().when(producerMock).send(any(PagamentosEntity.class), anyString());
         when(repositoryMock.existsByPaymentDateAndAmountAndReceiverKey(
                 request.getPaymentDate(), request.getAmount(),request.getReceiverDTO().getKey()
         )).thenReturn(true);
