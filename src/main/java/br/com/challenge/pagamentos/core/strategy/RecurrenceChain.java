@@ -1,10 +1,10 @@
 package br.com.challenge.pagamentos.core.strategy;
 
-import br.com.challenge.pagamentos.app.entrypoint.dto.RecorrenciaDTO;
+import br.com.challenge.pagamentos.app.entrypoint.dto.RecurrenceDTO;
 
 public interface RecurrenceChain<T> {
 
-    void execute(RecorrenciaDTO payload, Float amount);
+    void execute(RecurrenceDTO payload, Float amount);
     void next(RecurrenceChain next);
 
 }

@@ -1,7 +1,7 @@
 package br.com.challenge.pagamentos.app.dataprovider.kafka;
 
 import br.com.challenge.pagamentos.app.dataprovider.kafka.message.KafkaMessage;
-import br.com.challenge.pagamentos.core.entity.model.PagamentosEntity;
+import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,9 @@ public class KafkaProducer {
     @Autowired
     private final KafkaTemplate<String, String> template;
 
-    public void send(PagamentosEntity pagamento, String operacao){
-        var message = KafkaMessage.builder().tipoOperacao(operacao).entity(pagamento).build();
-        log.info("Payload enviado: {}", pagamento.toString());
+    public void send(PaymentsEntity paymentEntity, String operation){
+        var message = KafkaMessage.builder().operationType(operation).entity(paymentEntity).build();
+        log.info("Payload enviado: {}", paymentEntity.toString());
         template.send(topic, message.toString());
     }
 

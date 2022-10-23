@@ -5,19 +5,19 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BusinessException extends RuntimeException {
+public class KeyValidatorException extends RuntimeException{
 
     private String label;
 
     private String details;
 
-    public BusinessException(String message, Throwable cause){
+    public KeyValidatorException(String message, Throwable cause){
         super(message, cause);
     }
 
-    public BusinessException(String message){
+    public KeyValidatorException(String message){
         super(message);
-        this.label = "Erro na validação de negócios!";
+        this.label = "Erro na validação da chave!";
     }
 
 }

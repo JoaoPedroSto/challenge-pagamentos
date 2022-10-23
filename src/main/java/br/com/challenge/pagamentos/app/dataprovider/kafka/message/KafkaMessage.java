@@ -1,6 +1,6 @@
 package br.com.challenge.pagamentos.app.dataprovider.kafka.message;
 
-import br.com.challenge.pagamentos.core.entity.model.PagamentosEntity;
+import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
 import lombok.*;
 
 @Data
@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class KafkaMessage {
 
-    private String tipoOperacao;
-    private PagamentosEntity entity;
+    private String operationType;
+    private PaymentsEntity entity;
 
 }
