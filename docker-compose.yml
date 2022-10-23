@@ -61,22 +61,22 @@ services:
       - 19000:9000
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
-#
-#  application:
-#    container_name: pagamentos-challenge-app
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    ports:
-#      - "8085:8085"
-#    depends_on:
-#      - mongodb
-#      - kafka
-#    links:
-#      - mongodb
-#      - kafka
-#    networks:
-#      - network-challenge
+
+  application:
+    container_name: pagamentos-challenge-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mongodb
+      - kafka
+    links:
+      - mongodb
+      - kafka
+    networks:
+      - network-challenge
 
 networks:
   network-challenge:
