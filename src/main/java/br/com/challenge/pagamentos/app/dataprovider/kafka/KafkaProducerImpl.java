@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class KafkaProducer {
+public class KafkaProducerImpl implements KafkaProducerInterface {
     @Value("${topic.name.producer}")
     private String topic;
     @Autowired

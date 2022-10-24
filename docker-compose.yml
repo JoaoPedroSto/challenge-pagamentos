@@ -69,6 +69,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8085:8085"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://userdb:pass123@mongo:27017/
+      - SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS=kafka:29092
     depends_on:
       - mongodb
       - kafka

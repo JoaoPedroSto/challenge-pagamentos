@@ -1,6 +1,6 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
-import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducerInterface;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsResponseDTO;
@@ -19,7 +19,7 @@ public class SavePaymentServiceImpl implements SavePaymentService {
     @Autowired
     private PaymentEntityFactory factory;
     @Autowired
-    private KafkaProducer producer;
+    private KafkaProducerInterface producer;
     @Autowired
     private PaymentRepository repository;
 

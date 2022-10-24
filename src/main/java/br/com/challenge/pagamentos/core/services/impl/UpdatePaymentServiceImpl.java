@@ -1,7 +1,7 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
 import br.com.challenge.pagamentos.app.configuration.exception.BusinessException;
-import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducerInterface;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
 import br.com.challenge.pagamentos.core.factory.PaymentEntityFactory;
@@ -19,7 +19,7 @@ public class UpdatePaymentServiceImpl implements UpdatePaymentService {
     @Autowired
     private PaymentRepository repository;
     @Autowired
-    private KafkaProducer producer;
+    private KafkaProducerInterface producer;
     @Override
     public void updatePayment(PaymentsRequestDto paymentDto, String id) {
         var paymentData = repository.findById(id);

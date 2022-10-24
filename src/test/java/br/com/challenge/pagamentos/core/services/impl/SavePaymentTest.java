@@ -1,6 +1,6 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
-import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducerImpl;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.ReceiverPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
@@ -31,7 +31,7 @@ class SavePaymentTest {
     @Mock
     private PaymentRepository repository;
     @Mock
-    private KafkaProducer producer;
+    private KafkaProducerImpl producer;
 
     private static PaymentsRequestDto request;
     private static PaymentsEntity entity;

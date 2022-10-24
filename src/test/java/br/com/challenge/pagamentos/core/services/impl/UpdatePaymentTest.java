@@ -1,7 +1,7 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
 import br.com.challenge.pagamentos.app.configuration.exception.BusinessException;
-import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducerImpl;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.ReceiverPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
@@ -34,7 +34,7 @@ public class UpdatePaymentTest {
     @Mock
     private PaymentRepository repository;
     @Mock
-    private KafkaProducer producer;
+    private KafkaProducerImpl producer;
 
     private static PaymentsRequestDto dto;
     private static PaymentsEntity entity;

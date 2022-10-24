@@ -1,6 +1,6 @@
 package br.com.challenge.pagamentos.core.services.impl;
 
-import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
+import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducerImpl;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class DeletePaymentTest {
     @Mock
     private PaymentRepository repository;
     @Mock
-    private KafkaProducer producer;
+    private KafkaProducerImpl producer;
 
 
     @Test
