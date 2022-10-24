@@ -17,4 +17,5 @@ public class RecurrenceEntity implements Serializable {
     private static final long serialVersionUID = 4330518515868807047L;
     private LocalDate finalDate;
     private Frequency frequency;
+    private LocalDate nextPayment;
 }

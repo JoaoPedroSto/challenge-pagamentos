@@ -4,7 +4,6 @@ import br.com.challenge.pagamentos.app.configuration.exception.BusinessException
 import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
-import br.com.challenge.pagamentos.app.entrypoint.validator.RecurrenceValidator;
 import br.com.challenge.pagamentos.core.factory.PaymentEntityFactory;
 import br.com.challenge.pagamentos.core.services.UpdatePaymentService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +17,11 @@ public class UpdatePaymentServiceImpl implements UpdatePaymentService {
     @Autowired
     private PaymentEntityFactory factory;
     @Autowired
-    private RecurrenceValidator validator;
-    @Autowired
     private PaymentRepository repository;
     @Autowired
     private KafkaProducer producer;
     @Override
     public void updatePayment(PaymentsRequestDto paymentDto, String id) {
-        validator.validate(paymentDto.getRecurrenceDTO(), paymentDto.getAmount());
         var paymentData = repository.findById(id);
         if(paymentData.isPresent()){
             var entityUpdate = factory.factoryEntityUpdate(paymentDto, paymentData.get());

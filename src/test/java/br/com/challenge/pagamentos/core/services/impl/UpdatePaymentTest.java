@@ -5,7 +5,6 @@ import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.ReceiverPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
-import br.com.challenge.pagamentos.app.entrypoint.validator.RecurrenceValidator;
 import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
 import br.com.challenge.pagamentos.core.factory.PaymentEntityFactory;
 import org.junit.Before;
@@ -32,8 +31,6 @@ public class UpdatePaymentTest {
     private UpdatePaymentServiceImpl service;
     @Mock
     private PaymentEntityFactory factory;
-    @Mock
-    private RecurrenceValidator validator;
     @Mock
     private PaymentRepository repository;
     @Mock
@@ -64,7 +61,6 @@ public class UpdatePaymentTest {
 
     @Test
     public void atualizar_pagamento_test(){
-        doNothing().when(validator).validate(dto.getRecurrenceDTO(), dto.getAmount());
         doNothing().when(producer).send(any(PaymentsEntity.class), anyString());
         when(repository.findById("IDPagamento")).thenReturn(Optional.of(entity));
         ModelMapper mapper = new ModelMapper();
@@ -77,7 +73,6 @@ public class UpdatePaymentTest {
 
     @Test(expected = BusinessException.class)
     public void atualizar_pagamento_exception_test(){
-        doNothing().when(validator).validate(dto.getRecurrenceDTO(), dto.getAmount());
         doNothing().when(producer).send(any(PaymentsEntity.class), anyString());
         when(repository.findById("IDPagamento")).thenReturn(Optional.empty());
         service.updatePayment(dto ,"IDPagamento");

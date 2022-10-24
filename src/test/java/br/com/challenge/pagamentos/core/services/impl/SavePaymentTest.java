@@ -4,7 +4,7 @@ import br.com.challenge.pagamentos.app.dataprovider.kafka.KafkaProducer;
 import br.com.challenge.pagamentos.app.dataprovider.repository.PaymentRepository;
 import br.com.challenge.pagamentos.app.entrypoint.dto.ReceiverPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
-import br.com.challenge.pagamentos.app.entrypoint.validator.RecurrenceValidator;
+import br.com.challenge.pagamentos.core.entity.enuns.StatusPayment;
 import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
 import br.com.challenge.pagamentos.core.factory.impl.PaymentEntityFactoryImpl;
 import org.junit.Assert;
@@ -27,13 +27,11 @@ class SavePaymentTest {
     @InjectMocks
     private SavePaymentServiceImpl salvarService;
     @Mock
-    private RecurrenceValidator validatorMock;
+    private PaymentEntityFactoryImpl factory;
     @Mock
-    private PaymentEntityFactoryImpl factoryMock;
+    private PaymentRepository repository;
     @Mock
-    private PaymentRepository repositoryMock;
-    @Mock
-    private KafkaProducer producerMock;
+    private KafkaProducer producer;
 
     private static PaymentsRequestDto request;
     private static PaymentsEntity entity;
@@ -50,40 +48,34 @@ class SavePaymentTest {
                 .receiverDTO(receiver)
                 .build();
 
-        entity = PaymentsEntity
-                .builder()
-                .id(UUID.randomUUID().toString())
-                .build();
-
         entity = new ModelMapper().map(request, PaymentsEntity.class);
+        entity.setId(UUID.randomUUID().toString());
+        entity.setStatus(StatusPayment.EFETUADO);
     }
 
     @Test
     public void salvar_cliente_sucesso(){
-        doNothing().when(validatorMock).validate(request.getRecurrenceDTO(),request.getAmount());
-        doNothing().when(producerMock).send(any(PaymentsEntity.class), anyString());
-        when(repositoryMock.existsByPaymentDateAndAmountAndReceiverKey(
+        doNothing().when(producer).send(any(PaymentsEntity.class), anyString());
+        when(repository.existsByPaymentDateAndAmountAndReceiverKey(
                 request.getPaymentDate(), request.getAmount(),request.getReceiverDTO().getKey()
         )).thenReturn(false);
-        when(factoryMock.factoryEntity(request)).thenReturn(entity);
-        when(repositoryMock.save(entity)).thenReturn(entity);
+        when(factory.factoryEntity(request)).thenReturn(entity);
+        when(repository.save(entity)).thenReturn(entity);
         var result = salvarService.persistPayment(request);
         Assert.assertEquals("Operação salva com sucesso", result.getMessage());
     }
 
     @Test
     public void salvar_cliente_sucesso_notifica_duplicidate(){
-        doNothing().when(validatorMock).validate(request.getRecurrenceDTO(),request.getAmount());
-        doNothing().when(producerMock).send(any(PaymentsEntity.class), anyString());
-        when(repositoryMock.existsByPaymentDateAndAmountAndReceiverKey(
+        doNothing().when(producer).send(any(PaymentsEntity.class), anyString());
+        when(repository.existsByPaymentDateAndAmountAndReceiverKey(
                 request.getPaymentDate(), request.getAmount(),request.getReceiverDTO().getKey()
         )).thenReturn(true);
-        when(factoryMock.factoryEntity(request)).thenReturn(entity);
-        when(repositoryMock.save(entity)).thenReturn(entity);
+        when(factory.factoryEntity(request)).thenReturn(entity);
+        when(repository.save(entity)).thenReturn(entity);
         var result = salvarService.persistPayment(request);
         Assert.assertEquals("Operação salva com sucesso", result.getMessage());
         Assert.assertEquals("Operação já realizada anteriormente!", result.getDetails());
     }
-
 
 }

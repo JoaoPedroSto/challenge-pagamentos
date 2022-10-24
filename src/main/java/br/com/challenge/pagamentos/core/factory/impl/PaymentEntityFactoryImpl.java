@@ -3,6 +3,7 @@ package br.com.challenge.pagamentos.core.factory.impl;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
 import br.com.challenge.pagamentos.app.entrypoint.mapper.PaymentsMapper;
 import br.com.challenge.pagamentos.app.entrypoint.validator.KeyValidator;
+import br.com.challenge.pagamentos.app.entrypoint.validator.RecurrenceValidator;
 import br.com.challenge.pagamentos.core.entity.enuns.StatusPayment;
 import br.com.challenge.pagamentos.core.entity.enuns.KeyType;
 import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
@@ -18,18 +19,20 @@ public class PaymentEntityFactoryImpl implements PaymentEntityFactory {
     @Autowired
     private PaymentsMapper mapper;
     @Autowired
-    private KeyValidator validator;
+    private KeyValidator keyValidator;
+    @Autowired
+    private RecurrenceValidator recurrenceValidator;
 
     @Override
     public PaymentsEntity factoryEntity(PaymentsRequestDto dto) {
-
         var entity = mapper.PaymentsDtoToPaymentsEntity(dto);
         var status = entity.getPaymentDate().isBefore(LocalDate.now().plusDays(1))
                 ? StatusPayment.EFETUADO
                 : StatusPayment.AGENDADO;
         entity.setStatus(status);
         entity.getReceiver().setKeyType(KeyType.getKeyType(dto.getReceiverDTO().getKey()));
-        validator.validateKey(entity.getReceiver());
+        recurrenceValidator.validate(entity.getRecurrence(), entity.getAmount());
+        keyValidator.validateKey(entity.getReceiver());
         return entity;
     }
 

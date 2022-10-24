@@ -3,7 +3,8 @@ package br.com.challenge.pagamentos.core.factory.impl;
 import br.com.challenge.pagamentos.app.entrypoint.dto.ReceiverPixDTO;
 import br.com.challenge.pagamentos.app.entrypoint.dto.PaymentsRequestDto;
 import br.com.challenge.pagamentos.app.entrypoint.mapper.PaymentsMapper;
-import br.com.challenge.pagamentos.app.entrypoint.validator.KeyValidator;
+import br.com.challenge.pagamentos.app.entrypoint.validator.impl.KeyValidatorImpl;
+import br.com.challenge.pagamentos.app.entrypoint.validator.impl.RecurrenceValidatorImpl;
 import br.com.challenge.pagamentos.core.entity.model.ReceiverPixEntity;
 import br.com.challenge.pagamentos.core.entity.model.PaymentsEntity;
 import org.junit.Assert;
@@ -26,13 +27,12 @@ public class FactoryTest {
 
     @InjectMocks
     private PaymentEntityFactoryImpl service;
-
     @Mock
     private PaymentsMapper mapper;
-
     @Mock
-    private KeyValidator validator;
-
+    private RecurrenceValidatorImpl recurrenceValidatorImpl;
+    @Mock
+    private KeyValidatorImpl keyValidatorImpl;
     private PaymentsRequestDto dto;
     private PaymentsEntity entity;
 
@@ -54,7 +54,8 @@ public class FactoryTest {
     public void factory_entity_efetuado_test(){
         entity.setPaymentDate(dto.getPaymentDate().minusDays(1));
         when(mapper.PaymentsDtoToPaymentsEntity(dto)).thenReturn(entity);
-        doNothing().when(validator).validateKey(entity.getReceiver());
+        doNothing().when(keyValidatorImpl).validateKey(entity.getReceiver());
+        doNothing().when(recurrenceValidatorImpl).validate(entity.getRecurrence(), entity.getAmount());
         var result = service.factoryEntity(dto);
         Assert.assertEquals(EFETUADO, result.getStatus());
     }
@@ -63,6 +64,7 @@ public class FactoryTest {
     public void factory_entity_agendado_test(){
         entity.setPaymentDate(dto.getPaymentDate().plusDays(1));
         when(mapper.PaymentsDtoToPaymentsEntity(dto)).thenReturn(entity);
+        doNothing().when(recurrenceValidatorImpl).validate(entity.getRecurrence(), entity.getAmount());
         var result = service.factoryEntity(dto);
         Assert.assertEquals(AGENDADO, result.getStatus());
     }
